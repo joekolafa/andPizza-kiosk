@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>&pizza — Kiosk Channel Analysis</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<meta property="og:title" content="&pizza — Kiosk Channel Analysis"/>
+<meta property="og:description" content="Feb 2026 · 66 Locations · +$0.39/pie-order premium · 4.4× stuffed crust · $230K annualized incremental"/>
+<meta property="og:image" content="og-image.png"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="&pizza — Kiosk Channel Analysis"/>
+<meta name="twitter:description" content="Feb 2026 · 66 Locations · +$0.39/pie-order premium · 4.4× stuffed crust · $230K annualized incremental"/>
+<meta name="twitter:image" content="og-image.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#111;color:#F5F5F5;-webkit-font-smoothing:antialiased}
+::selection{background:#FFD700;color:#111}
+.grain{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:9999}
+.wrap{max-width:1080px;margin:0 auto;padding:16px 28px 56px}
+@media(max-width:640px){.wrap{padding:12px 14px 48px}}
+.kpi-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+@media(max-width:640px){.kpi-row{flex-direction:column}}
+.kpi{background:#1A1A1A;border-radius:14px;padding:20px 24px;flex:1;min-width:150px;border:1px solid #2A2A2A}
+.kpi-label{font-size:10px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:0.12em}
+.kpi-value{font-size:28px;font-weight:800;color:#F5F5F5;margin-top:6px;font-family:'Space Grotesk'}
+.kpi-sub{font-size:11.5px;color:#999;margin-top:4px;line-height:1.4}
+.sec-title{margin:32px 0 14px}
+.sec-title h2{font-size:18px;font-weight:700;color:#F5F5F5;font-family:'Space Grotesk';margin:0}
+.sec-title p{font-size:12px;color:#777;margin:4px 0 0}
+.card{background:#1A1A1A;border-radius:14px;padding:20px;border:1px solid #2A2A2A;margin-bottom:12px}
+.insight{border-radius:12px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}
+.insight-body{font-size:12px;color:#BBB;line-height:1.6}
+.insight-title{font-size:12.5px;font-weight:700;color:#F5F5F5;margin-bottom:3px}
+.tabs{display:flex;background:#1A1A1A;border-bottom:2px solid #2A2A2A;padding:0 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{padding:11px 16px;font-size:12px;font-weight:500;color:#777;background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.15s;font-family:inherit}
+.tab.active{font-weight:700;color:#FFD700;border-bottom-color:#FFD700}
+.hbar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.hbar-name{font-size:12px;font-weight:600;color:#CCC;min-width:130px;flex-shrink:0;text-align:right}
+@media(max-width:640px){.hbar-name{min-width:90px;font-size:10px}}
+.hbar-bars{flex:1;display:flex;flex-direction:column;gap:3px}
+.hbar-track{height:18px;background:#2A2A2A;border-radius:6px;overflow:hidden}
+.hbar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 6px;font-size:9px;font-weight:700;color:#111;transition:width 0.6s ease}
+.hbar-legend{display:flex;gap:16px;justify-content:center;margin:12px 0 4px;font-size:12px;color:#999}
+.hbar-legend span{display:flex;align-items:center;gap:6px}
+.hbar-legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+@media(max-width:640px){.data-table{font-size:12px}}
+.data-table thead th{padding:10px;text-align:right;font-weight:700;color:#777;font-size:10px;text-transform:uppercase;letter-spacing:0.05em;border-bottom:2px solid #2A2A2A}
+.data-table thead th:first-child{text-align:left}
+.data-table tbody td{padding:8px 10px;border-bottom:1px solid #222;color:#CCC}
+.data-table tbody tr:nth-child(even){background:#161616}
+.data-table tbody td:first-child{font-weight:600;color:#F5F5F5}
+.data-table tbody td:not(:first-child){text-align:right}
+.pill{padding:3px 8px;border-radius:6px;font-weight:700;font-size:12px;white-space:nowrap}
+.pill-gold{background:rgba(255,215,0,0.15);color:#FFD700}
+.pill-red{background:rgba(255,80,80,0.15);color:#FF6B6B}
+.pill-muted{background:#2A2A2A;color:#888}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chip{border-radius:10px;padding:10px 14px;flex:1;min-width:120px;text-align:center;background:#222;border:1px solid #333}
+.chip-icon{font-size:16px}
+.chip-label{font-size:10px;color:#999;font-weight:600;margin-top:2px}
+.chip-value{font-size:18px;font-weight:800;font-family:'Space Grotesk'}
+.chip-sub{font-size:9px;color:#666}
+.why-row{display:flex;gap:12px;flex-wrap:wrap}
+@media(max-width:640px){.why-row{flex-direction:column}}
+.why-card{flex:1;min-width:200px}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div style="background:linear-gradient(135deg,#1A1A1A 0%,#111 50%,#1A1A0A 100%);padding:30px 32px 22px;color:#fff;position:relative;overflow:hidden;border-bottom:2px solid #FFD700">
+  <div style="position:absolute;top:0;right:0;width:300px;height:300px;border-radius:50%;background:rgba(255,215,0,0.04);transform:translate(100px,-100px)"></div>
+  <div style="position:relative;z-index:1;display:flex;align-items:center;gap:14px;max-width:1080px;margin:0 auto">
+    <div style="width:42px;height:42px;border-radius:12px;background:#FFD700;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#111;font-family:'Space Grotesk'">&</div>
+    <div>
+      <h1 style="margin:0;font-size:22px;font-weight:700;font-family:'Space Grotesk'">&pizza — Kiosk Channel Analysis</h1>
+      <div style="font-size:11px;opacity:0.5;margin-top:4px;font-weight:500">Feb 2026 · All Locations · Toast PMIX Export · 34K kiosk + 102K POS items</div>
+    </div>
+  </div>
+</div>
+<div style="background:rgba(255,215,0,0.06);border-bottom:1px solid rgba(255,215,0,0.15);padding:8px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center">
+  <span style="font-size:11px;color:#FFD700;font-weight:700;letter-spacing:0.05em">FLEET-WIDE</span>
+  <span style="font-size:11px;color:#999">66 locations · Feb 2026 · Kiosk source filter vs In-Store source</span>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div class="wrap" id="content"></div>
+<div style="text-align:center;padding:16px 20px 24px;font-size:10.5px;color:#555">&pizza Kiosk Analysis · Feb 2026 · Toast PMIX Export</div>
+
+<script>
+var G="#FFD700",GB="rgba(255,215,0,0.12)",R="#FF6B6B",RB="rgba(255,80,80,0.12)",W="#F5F5F5",M="#888";
+var fmt=function(n){return n.toLocaleString()};
+
+var D={
+  k_total:34024, k_gross:292250, p_total:102194, p_gross:853334,
+  k_pies:18523, p_pies:55443,
+  k_pie_rev:226164, p_pie_rev:662514,
+  k_avg_pie:12.21, p_avg_pie:11.95,
+
+  sides:[
+    {n:"Knots & Dippers", k:21.3, p:15.1, kn:3948, pn:8369},
+    {n:"Drinks",          k:39.1, p:48.7, kn:7244, pn:26985},
+    {n:"Combos",          k:8.6,  p:4.3,  kn:1593, pn:2384},
+    {n:"Sauces",          k:8.0,  p:4.5,  kn:1490, pn:2513},
+    {n:"Salads",          k:2.8,  p:2.1,  kn:516,  pn:1161},
+    {n:"Desserts",        k:0.5,  p:1.7,  kn:89,   pn:943},
+  ],
+
+  curated:[
+    {n:"Lil Roni",          kp:9.9,  pp:7.6,  kq:1837, pq:4214},
+    {n:"Maverick",          kp:6.9,  pp:7.1,  kq:1272, pq:3934},
+    {n:"American Honey",    kp:5.8,  pp:5.0,  kq:1069, pq:2778},
+    {n:"Dirty Bird",        kp:4.5,  pp:2.5,  kq:829,  pq:1405},
+    {n:"CBR",               kp:4.2,  pp:2.8,  kq:774,  pq:1541},
+    {n:"New G",             kp:3.9,  pp:3.1,  kq:727,  pq:1732},
+    {n:"Pineapple Jak'd",   kp:2.0,  pp:0.6,  kq:375,  pq:352},
+    {n:"Moonstruck",        kp:1.2,  pp:0.4,  kq:226,  pq:200},
+    {n:"Bacon Brussel",     kp:1.2,  pp:0.6,  kq:223,  pq:335},
+    {n:"Elote Loco",        kp:1.1,  pp:0.2,  kq:200,  pq:107},
+  ],
+
+  top_knots:[
+    {n:"Gnarlic Knots",     kq:1017, pq:2907, ka:6.72, pa:7.62},
+    {n:"Cheesy Dippers",    kq:779,  pq:1036, ka:6.13, pa:6.01},
+    {n:"Oreo Dippers",      kq:728,  pq:1299, ka:6.00, pa:6.00},
+    {n:"Gnarlic Little Dippers",kq:325, pq:0,  ka:6.00, pa:0},
+    {n:"Vegan Knots",       kq:247,  pq:724,  ka:6.93, pa:7.65},
+    {n:"Cinna-Knots",       kq:243,  pq:610,  ka:6.47, pa:7.45},
+    {n:"Nutella Little Dippers",kq:174, pq:0,  ka:6.00, pa:0},
+    {n:"Hot Knots",         kq:0,    pq:424,  ka:0,    pa:7.59},
+  ],
+};
+
+function kpi(label,value,sub,color){
+  return '<div class="kpi" style="border-left:4px solid '+(color||G)+'"><div class="kpi-label">'+label+'</div><div class="kpi-value">'+value+'</div>'+(sub?'<div class="kpi-sub">'+sub+'</div>':'')+'</div>';
+}
+function sec(title,sub){return '<div class="sec-title"><h2>'+title+'</h2>'+(sub?'<p>'+sub+'</p>':'')+'</div>';}
+function insight(icon,title,body,bg){return '<div class="insight" style="background:'+(bg||GB)+'">'+(icon?'<div style="font-size:18px;flex-shrink:0;margin-top:1px">'+icon+'</div>':'')+'<div><div class="insight-title">'+title+'</div><div class="insight-body">'+body+'</div></div></div>';}
+
+function dualBar(data,maxVal,fv){
+  var h='<div class="hbar-legend"><span><i style="background:'+G+'"></i> Kiosk</span><span><i style="background:#666"></i> POS</span></div>';
+  data.forEach(function(d){
+    var kw=Math.max(2,(d.k/maxVal*100)).toFixed(1), pw=Math.max(2,(d.p/maxVal*100)).toFixed(1);
+    var kl=fv?fv(d.k):d.k, pl=fv?fv(d.p):d.p;
+    h+='<div class="hbar-row"><div class="hbar-name">'+d.label+'</div><div class="hbar-bars">';
+    h+='<div class="hbar-track"><div class="hbar-fill" style="width:'+kw+'%;background:'+G+'">'+kl+'</div></div>';
+    h+='<div class="hbar-track"><div class="hbar-fill" style="width:'+pw+'%;background:#666">'+pl+'</div></div>';
+    h+='</div></div>';
+  });
+  return h;
+}
+
+var TABS=["Overview","Sides & Attach","Pie Mix","Business Impact"];
+var activeTab="Overview";
+function renderTabs(){
+  document.getElementById("tabs").innerHTML=TABS.map(function(t){
+    return '<button class="tab'+(t===activeTab?" active":"")+'" onclick="switchTab(\''+t+'\')">'+t+'</button>';
+  }).join("");
+}
+function switchTab(t){activeTab=t;renderTabs();renderContent();}
+
+function renderContent(){
+  var el=document.getElementById("content");
+  if(activeTab==="Overview") el.innerHTML=renderOverview();
+  else if(activeTab==="Sides & Attach") el.innerHTML=renderSides();
+  else if(activeTab==="Pie Mix") el.innerHTML=renderPieMix();
+  else if(activeTab==="Business Impact") el.innerHTML=renderImpact();
+}
+
+function renderOverview(){
+  var k_share=D.k_total/(D.k_total+D.p_total)*100;
+  return '<div class="kpi-row">'
+    +kpi("Kiosk Items",fmt(D.k_total),k_share.toFixed(1)+"% of total item volume",G)
+    +kpi("Kiosk Gross","$"+fmt(D.k_gross),"vs $"+fmt(D.p_gross)+" POS","#FFD700")
+    +kpi("Kiosk Pies",fmt(D.k_pies),"avg $"+D.k_avg_pie.toFixed(2)+" vs $"+D.p_avg_pie.toFixed(2)+" POS","#FFD700")
+    +kpi("Stuffed Crust","12.4%","vs 2.8% POS — 4.4\u00D7 rate, $2/upgrade","#FF6B6B")
+  +'</div>'
+
+  +sec("Side Attach Rates","Items per pie — what are guests adding alongside their pizza?")
+  +'<div class="card">'
+    +dualBar(D.sides.map(function(s){return{label:s.n,k:s.k,p:s.p}}),55,function(v){return v.toFixed(1)+"%"})
+    +'<div class="chip-row">'
+      +D.sides.map(function(s){
+        var gap=s.k-s.p;
+        var color=gap>0?"color:"+G:"color:"+R;
+        var bg=gap>0?GB:RB;
+        return '<div class="chip" style="background:'+bg+'"><div class="chip-label">'+s.n+'</div><div class="chip-value" style="'+color+'">'+(gap>0?"+":"")+gap.toFixed(1)+'pp</div><div class="chip-sub">K:'+fmt(s.kn)+' / P:'+fmt(s.pn)+'</div></div>';
+      }).join("")
+    +'</div>'
+  +'</div>'
+
+  +insight("\uD83E\uDD64","Kiosk drives sides, POS drives drinks",
+    "<strong>Knots & Dippers (+6.2pp)</strong> and <strong>Combos (+4.3pp)</strong> are clear kiosk wins — visual \"add to your order\" prompts work. But <strong>Drinks lag 9.6pp</strong> behind POS, likely because the physical fountain is right there at the counter. <strong>Stuffed Crust at 12.4% vs 2.8%</strong> is the paid upsell headline — kiosk makes the $2 upgrade visible and frictionless.",GB)
+
+  +sec("CYO vs Curated Mix","Craft Your Own versus pre-built Hit pies")
+  +'<div class="card">'
+    +'<div style="display:flex;gap:20px;justify-content:center;padding:16px 0">'
+    +'<div style="text-align:center"><div style="font-size:11px;color:#888;font-weight:600;margin-bottom:6px">KIOSK</div>'
+    +'<div style="display:flex;gap:4px;align-items:flex-end;height:120px;justify-content:center">'
+    +'<div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div style="font-size:10px;color:'+G+';font-weight:700">45.7%</div><div style="width:50px;height:55px;background:'+G+';border-radius:6px 6px 0 0"></div><div style="font-size:9px;color:#888">CYO</div></div>'
+    +'<div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div style="font-size:10px;color:#999;font-weight:700">54.3%</div><div style="width:50px;height:65px;background:#444;border-radius:6px 6px 0 0"></div><div style="font-size:9px;color:#888">Curated</div></div>'
+    +'</div></div>'
+    +'<div style="text-align:center"><div style="font-size:11px;color:#888;font-weight:600;margin-bottom:6px">POS</div>'
+    +'<div style="display:flex;gap:4px;align-items:flex-end;height:120px;justify-content:center">'
+    +'<div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div style="font-size:10px;color:'+G+';font-weight:700">56.2%</div><div style="width:50px;height:67px;background:'+G+';border-radius:6px 6px 0 0"></div><div style="font-size:9px;color:#888">CYO</div></div>'
+    +'<div style="display:flex;flex-direction:column;align-items:center;gap:2px"><div style="font-size:10px;color:#999;font-weight:700">43.8%</div><div style="width:50px;height:52px;background:#444;border-radius:6px 6px 0 0"></div><div style="font-size:9px;color:#888">Curated</div></div>'
+    +'</div></div></div>'
+    +insight("","Kiosk drives more curated pie selection",
+      "Kiosk guests choose curated Hits <strong>54.3% of the time vs 43.8% at POS</strong>. The visual menu with photography and descriptions makes signature pies more appealing than building your own. Specialty pies like <strong>Elote Loco (5.5\u00D7 kiosk)</strong> and <strong>Pineapple Jak\u2019d (3.3\u00D7)</strong> over-index dramatically, suggesting guests discover adventurous options they wouldn\u2019t have ordered verbally.",GB)
+  +'</div>';
+}
+
+function renderSides(){
+  return sec("Side Attach Detail","Per-pie attach rates across all side categories")
+  +'<div class="card" style="overflow-x:auto"><table class="data-table"><thead><tr>'
+    +'<th style="text-align:left">Side Category</th><th>Kiosk Qty</th><th>K Attach</th><th>POS Qty</th><th>P Attach</th><th>Gap</th></tr></thead><tbody>'
+    +D.sides.map(function(s){
+      var gap=s.k-s.p;
+      var cls=gap>0?"pill-gold":"pill-red";
+      return '<tr><td>'+s.n+'</td><td>'+fmt(s.kn)+'</td><td style="color:'+G+';font-weight:700">'+s.k.toFixed(1)+'%</td><td>'+fmt(s.pn)+'</td><td style="color:#888">'+s.p.toFixed(1)+'%</td><td><span class="pill '+cls+'">'+(gap>0?"+":"")+gap.toFixed(1)+'pp</span></td></tr>';
+    }).join("")
+  +'</tbody></table></div>'
+
+  +sec("Knots & Dippers Breakdown","Individual knot/dipper items")
+  +'<div class="card" style="overflow-x:auto"><table class="data-table"><thead><tr>'
+    +'<th style="text-align:left">Item</th><th>K Qty</th><th>K Avg</th><th>P Qty</th><th>P Avg</th></tr></thead><tbody>'
+    +D.top_knots.map(function(k){
+      return '<tr><td>'+k.n+'</td><td>'+(k.kq>0?fmt(k.kq):'--')+'</td><td>'+(k.ka>0?'$'+k.ka.toFixed(2):'--')+'</td><td>'+(k.pq>0?fmt(k.pq):'--')+'</td><td>'+(k.pa>0?'$'+k.pa.toFixed(2):'--')+'</td></tr>';
+    }).join("")
+  +'</tbody></table></div>'
+
+  +insight("\uD83E\uDDC0","Cheesy Dippers are a kiosk star",
+    "Cheesy Dippers index <strong>75% higher on kiosk vs POS</strong> as a share of knot orders. The visual presentation and \"add to order\" prompt make them irresistible. Gnarlic Little Dippers and Nutella Little Dippers appear to be <strong>kiosk-only items</strong> (or at least kiosk-menu-only) with 499 combined units.",GB)
+
+  +sec("Stuffed Crust","The $2 paid upgrade — kiosk's biggest conversion win")
+  +'<div class="card">'
+    +'<div style="display:flex;gap:20px;align-items:center;justify-content:center;padding:20px 0;flex-wrap:wrap">'
+    +'<div style="text-align:center"><div style="font-size:11px;color:#888;font-weight:600;margin-bottom:8px">KIOSK</div><div style="font-size:42px;font-weight:800;color:'+G+';font-family:Space Grotesk">12.4%</div><div style="font-size:12px;color:#888;margin-top:4px">2,296 pies \u00B7 $4,592 rev</div></div>'
+    +'<div style="font-size:32px;color:#444">vs</div>'
+    +'<div style="text-align:center"><div style="font-size:11px;color:#888;font-weight:600;margin-bottom:8px">POS</div><div style="font-size:42px;font-weight:800;color:#666;font-family:Space Grotesk">2.8%</div><div style="font-size:12px;color:#888;margin-top:4px">1,568 pies \u00B7 $3,136 rev</div></div>'
+    +'<div style="text-align:center;padding:16px 20px;background:rgba(255,215,0,0.08);border-radius:12px;border:1px solid rgba(255,215,0,0.2)"><div style="font-size:14px;font-weight:800;color:'+G+';font-family:Space Grotesk">4.4\u00D7</div><div style="font-size:10px;color:#999;margin-top:2px">kiosk conversion rate</div></div>'
+    +'</div>'
+    +insight("\uD83D\uDCB0","Pure incremental revenue from visual upsell",
+      "At $2 per upgrade on 12.4% of kiosk pies, stuffed crust generated <strong>$4,592 in February from kiosk alone</strong>. At POS, it\u2019s only 2.8% — guests either don\u2019t know the option exists or don\u2019t think to ask. The kiosk makes it a one-tap visual decision. If POS could match even half the kiosk rate, that\u2019s ~$2,700/month additional.",GB)
+  +'</div>'
+
+  +sec("Drink Gap","Kiosk\u2019s biggest attach weakness")
+  +'<div class="card">'
+    +insight("\uD83E\uDD64","Drinks are 9.6pp lower on kiosk",
+      "POS drink attach is <strong>48.7% vs 39.1% on kiosk</strong>. The physical fountain is right at the POS counter — guests see it, grab it. On kiosk, drinks are a menu section you have to navigate to. Consider: (1) a \u201CAdd a drink?\u201D prompt after pie selection, (2) featuring the $2 &soda / Mango Passion Fruit visually, (3) making the Lunch Combo more prominent since it bundles a drink.",RB)
+  +'</div>';
+}
+
+function renderPieMix(){
+  return sec("CYO vs Curated Breakdown","How kiosk shifts the pie mix toward signature Hits")
+  +'<div class="card" style="overflow-x:auto"><table class="data-table"><thead><tr>'
+    +'<th style="text-align:left">Pie</th><th>K Qty</th><th>K % of Pies</th><th>P Qty</th><th>P % of Pies</th><th>Kiosk Index</th></tr></thead><tbody>'
+    +'<tr style="border-bottom:2px solid #333"><td style="color:'+G+'">CRAFT YOUR OWN</td><td>8,464</td><td style="color:'+G+';font-weight:700">45.7%</td><td>31,153</td><td style="color:#888">56.2%</td><td><span class="pill pill-red">0.81\u00D7</span></td></tr>'
+    +D.curated.map(function(c){
+      var idx=c.kp/Math.max(c.pp,0.1);
+      var cls=idx>1.2?"pill-gold":"pill-muted";
+      return '<tr><td>'+c.n+'</td><td>'+fmt(c.kq)+'</td><td style="color:'+G+';font-weight:700">'+c.kp.toFixed(1)+'%</td><td>'+fmt(c.pq)+'</td><td style="color:#888">'+c.pp.toFixed(1)+'%</td><td><span class="pill '+cls+'">'+idx.toFixed(1)+'\u00D7</span></td></tr>';
+    }).join("")
+  +'</tbody></table></div>'
+
+  +insight("\uD83D\uDE80","Adventurous pies explode on kiosk",
+    "The boldest, most visually striking pies over-index dramatically on kiosk: <strong>Elote Loco (5.5\u00D7)</strong>, <strong>Pineapple Jak\u2019d (3.3\u00D7)</strong>, <strong>Moonstruck (3.0\u00D7)</strong>, <strong>Bacon Brussel (2.0\u00D7)</strong>, <strong>Dirty Bird (1.8\u00D7)</strong>. These are pies guests might not order verbally (\u201CI\u2019ll have the\u2026 bacon brussel?\u201D) but will confidently tap when they see the image and description.",GB)
+
+  +sec("New & Limited Time Performance")
+  +'<div class="card">'
+    +'<div style="display:flex;gap:20px;align-items:center;justify-content:center;padding:12px 0;flex-wrap:wrap">'
+    +'<div style="text-align:center"><div style="font-size:11px;color:#888;font-weight:600;margin-bottom:4px">KIOSK NEW/LTO</div><div style="font-size:28px;font-weight:800;color:'+G+';font-family:Space Grotesk">1,034</div><div style="font-size:12px;color:#888">$7,334 gross \u00B7 $7.09 avg</div></div>'
+    +'<div style="text-align:center"><div style="font-size:11px;color:#888;font-weight:600;margin-bottom:4px">POS NEW/LTO</div><div style="font-size:28px;font-weight:800;color:#666;font-family:Space Grotesk">396</div><div style="font-size:12px;color:#888">$2,579 gross \u00B7 $6.51 avg</div></div>'
+    +'</div>'
+    +insight("\u2728","Kiosk is the LTO discovery engine",
+      "New & Limited Time items sold <strong>2.6\u00D7 more units on kiosk</strong> despite kiosk being only ~25% of total volume. The visual showcase of new items with photography drives trial in a way that a menu board or verbal ordering can\u2019t match. LTO items also average <strong>$0.58 higher on kiosk</strong> ($7.09 vs $6.51), suggesting kiosk guests are buying the premium LTO options.",GB)
+  +'</div>'
+
+  +sec("High Protein Pie")
+  +'<div class="card">'
+    +insight("\uD83C\uDFCB\uFE0F","Kiosk owns the Protein Pie",
+      "<strong>76 units on kiosk vs 16 on POS</strong> (4.8\u00D7 rate). The GLP-1 friendly, high-protein positioning resonates with the self-selecting kiosk audience who can read the nutritional story at their own pace without holding up a line.",GB)
+  +'</div>';
+}
+
+function renderImpact(){
+  var drivers=[
+    {n:"Knots & Dippers",mo:7270,ann:87244,desc:"+6.2pp attach at $6.33 avg",pos:true},
+    {n:"Combos & Bundles",mo:7164,ann:85972,desc:"+4.3pp attach on Lunch Combo / $7 Mix & Match",pos:true},
+    {n:"Pie Price Premium",mo:4824,ann:57889,desc:"$0.26/pie from curated mix shift",pos:true},
+    {n:"Stuffed Crust",mo:3556,ann:42677,desc:"$2 upgrade at 12.4% vs 2.8% POS (4.4\u00D7)",pos:true},
+    {n:"Sauces",mo:642,ann:7702,desc:"+3.5pp attach at $0.99",pos:true},
+    {n:"Drinks (headwind)",mo:-4241,ann:-50891,desc:"\u22129.6pp — fountain proximity at POS counter",pos:false},
+  ];
+  var net_mo=19216, net_ann=230593;
+  var maxBar=Math.max.apply(null,drivers.map(function(d){return Math.abs(d.mo)}));
+
+  var h='<div class="kpi-row">'
+    +kpi("Net Incremental","$19.2K /mo","$230.6K annualized across 66 stores",G)
+    +kpi("Per Store","$291 /mo","$3,494 per store per year",G)
+    +kpi("Rev per Pie-Order","$15.78","vs $15.39 POS \u2014 +$0.39 kiosk premium","#FFD700")
+    +kpi("Kiosk Channel","25% of volume","34K of 136K items \u00B7 $292K of $1.15M gross","#FFD700")
+  +'</div>';
+
+  h+=sec("Incremental Revenue by Driver","What kiosk generates above POS baseline rates, applied to kiosk pie volume (18,523 pies)");
+
+  // Waterfall-style bars
+  h+='<div class="card">';
+  drivers.forEach(function(d){
+    var w=Math.abs(d.mo)/maxBar*100;
+    var color=d.pos?G:R;
+    var bg=d.pos?GB:RB;
+    var sign=d.pos?"+":"";
+    h+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">'
+      +'<div style="min-width:160px;text-align:right;flex-shrink:0"><span style="font-size:12px;font-weight:600;color:#CCC">'+d.n+'</span></div>'
+      +'<div style="flex:1;position:relative">'
+        +'<div style="height:28px;background:#222;border-radius:8px;overflow:hidden">'
+          +'<div style="height:100%;width:'+w.toFixed(1)+'%;background:'+bg+';border-radius:8px;display:flex;align-items:center;padding:0 10px;border:1px solid '+color+'">'
+            +'<span style="font-size:12px;font-weight:800;color:'+color+';white-space:nowrap;font-family:Space Grotesk">'+sign+'$'+Math.abs(d.mo).toLocaleString()+'/mo</span>'
+          +'</div>'
+        +'</div>'
+        +'<div style="font-size:10px;color:#777;margin-top:2px">'+d.desc+'</div>'
+      +'</div>'
+    +'</div>';
+  });
+
+  // Net bar
+  h+='<div style="margin-top:16px;padding-top:14px;border-top:2px solid #333;display:flex;align-items:center;gap:12px">'
+    +'<div style="min-width:160px;text-align:right;flex-shrink:0"><span style="font-size:13px;font-weight:800;color:'+G+'">NET TOTAL</span></div>'
+    +'<div style="flex:1"><div style="height:34px;background:rgba(255,215,0,0.08);border-radius:8px;display:flex;align-items:center;padding:0 14px;border:2px solid '+G+'">'
+      +'<span style="font-size:16px;font-weight:800;color:'+G+';font-family:Space Grotesk">+$19,216/mo &nbsp;\u00B7&nbsp; $230,593/yr</span>'
+    +'</div></div></div>';
+  h+='</div>';
+
+  // Per-pie premium
+  h+=sec("Per Pie-Order Premium","Total kiosk revenue \u00F7 pie count — the simplest way to frame kiosk value");
+  h+='<div class="card">'
+    +'<div style="display:flex;gap:28px;align-items:center;justify-content:center;padding:20px 0;flex-wrap:wrap">'
+    +'<div style="text-align:center"><div style="font-size:11px;color:#888;font-weight:600;margin-bottom:8px">KIOSK REV / PIE-ORDER</div><div style="font-size:48px;font-weight:800;color:'+G+';font-family:Space Grotesk">$15.78</div><div style="font-size:12px;color:#888;margin-top:4px">$292K \u00F7 18,523 pies</div></div>'
+    +'<div style="font-size:32px;color:#444">vs</div>'
+    +'<div style="text-align:center"><div style="font-size:11px;color:#888;font-weight:600;margin-bottom:8px">POS REV / PIE-ORDER</div><div style="font-size:48px;font-weight:800;color:#666;font-family:Space Grotesk">$15.39</div><div style="font-size:12px;color:#888;margin-top:4px">$853K \u00F7 55,443 pies</div></div>'
+    +'<div style="text-align:center;padding:18px 24px;background:rgba(255,215,0,0.08);border-radius:14px;border:1px solid rgba(255,215,0,0.2)"><div style="font-size:22px;font-weight:800;color:'+G+';font-family:Space Grotesk">+$0.39</div><div style="font-size:11px;color:#999;margin-top:4px">per pie-order</div><div style="font-size:10px;color:#666;margin-top:2px">knots + combos + crust + mix</div></div>'
+    +'</div>'
+    +insight("\uD83D\uDCCA","Why this is the headline metric",
+      "The $0.39 per pie-order premium is clean and defensible. It includes the positive effects (stuffed crust, knot attach, curated mix) net of the drink headwind. Across 18,523 kiosk pies in February, that\u2019s <strong>$7,224 in incremental revenue</strong> from ordering behavior alone \u2014 before accounting for labor efficiency or throughput gains.",GB)
+  +'</div>';
+
+  // Upside scenario
+  h+=sec("Upside Scenario","What closing the drink gap would mean");
+  h+='<div class="card">'
+    +'<div style="display:flex;gap:16px;flex-wrap:wrap">'
+    +'<div style="flex:1;min-width:220px;padding:18px;background:#181818;border-radius:12px;border:1px solid #2A2A2A">'
+      +'<div style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:0.1em">Current (with drink headwind)</div>'
+      +'<div style="font-size:28px;font-weight:800;color:'+G+';font-family:Space Grotesk;margin-top:8px">$230K<span style="font-size:14px;color:#888">/yr</span></div>'
+      +'<div style="font-size:11px;color:#777;margin-top:4px">$3,494/store \u00B7 $291/store/mo</div>'
+    +'</div>'
+    +'<div style="flex:1;min-width:220px;padding:18px;background:rgba(255,215,0,0.05);border-radius:12px;border:1px solid rgba(255,215,0,0.15)">'
+      +'<div style="font-size:10px;color:'+G+';font-weight:600;text-transform:uppercase;letter-spacing:0.1em">If drink gap closed 50%</div>'
+      +'<div style="font-size:28px;font-weight:800;color:'+G+';font-family:Space Grotesk;margin-top:8px">$256K<span style="font-size:14px;color:#888">/yr</span></div>'
+      +'<div style="font-size:11px;color:#777;margin-top:4px">$3,879/store \u00B7 $323/store/mo</div>'
+    +'</div>'
+    +'<div style="flex:1;min-width:220px;padding:18px;background:rgba(255,215,0,0.05);border-radius:12px;border:1px solid rgba(255,215,0,0.15)">'
+      +'<div style="font-size:10px;color:'+G+';font-weight:600;text-transform:uppercase;letter-spacing:0.1em">If drink gap fully closed</div>'
+      +'<div style="font-size:28px;font-weight:800;color:'+G+';font-family:Space Grotesk;margin-top:8px">$281K<span style="font-size:14px;color:#888">/yr</span></div>'
+      +'<div style="font-size:11px;color:#777;margin-top:4px">$4,264/store \u00B7 $355/store/mo</div>'
+    +'</div>'
+    +'</div>'
+    +insight("\uD83E\uDD64","The drink gap is the single biggest lever",
+      "Closing the 9.6pp drink attach gap would convert the $50.9K annual headwind into neutral. A simple \u201CAdd a drink?\u201D interstitial after pie selection \u2014 showing the $2 Mango Passion Fruit or &soda \u2014 could realistically close half that gap. That alone lifts per-store impact from $3,494 to $3,879/year.",GB)
+  +'</div>';
+
+  // Caveats
+  h+='<div style="margin-top:20px;padding:20px;background:#181818;border-radius:14px;border:1px solid #2A2A2A">'
+    +'<div style="font-size:13px;font-weight:700;color:#999;margin-bottom:8px;font-family:Space Grotesk">\u26A0\uFE0F Methodology & Caveats</div>'
+    +'<div style="font-size:12px;color:#777;line-height:1.7">'
+    +'<strong>How this is calculated:</strong> For each side category, we compute the difference between kiosk attach rate and POS attach rate, multiply by kiosk pie count (18,523), then multiply by the average item price. This gives the incremental revenue kiosk generates <em>above what those orders would have generated at POS attach rates</em>.<br><br>'
+    +'<strong>Self-selection caveat:</strong> We cannot fully control for guest self-selection. Guests who choose kiosks may inherently be more exploratory orderers (more sides, more adventurous pies). Some of the measured lift may reflect who uses kiosks rather than what kiosks cause. Order-level analysis with loyalty ID matching would be needed to isolate causation.<br><br>'
+    +'<strong>Scope:</strong> This analysis excludes POS-only categories (Bar Menu: $18.3K beer/cocktails/wine/liquor; Catering: $13.2K; Breakfast: $5.4K; Espresso Bar: $1.1K) which are not available on kiosk. Drink comparison is fountain/bottled beverages only.<br><br>'
+    +'<strong>Not included:</strong> Labor savings from kiosk throughput, reduced order errors, and loyalty enrollment conversion \u2014 all real but harder to quantify from PMIX alone.'
+    +'</div></div>';
+
+  return h;
+}
+
+renderTabs();
+renderContent();
+</script>
+</body>
+</html>
